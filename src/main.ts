@@ -1,20 +1,21 @@
 //main.ts
 import { renderChart } from "./chart";
-import type { ChartData } from "chart.js/auto";
+import { fetchData } from "./api";
+import type { ExpenseData } from "./interface";
+import { generateExpenseChartData } from "./expense";
 
-const chartData:ChartData<"pie"> = {
-  labels: ['食費', '家賃', '光熱費', '通信費', '趣味'],
-  datasets: [{
-    label: '今月の支出 (円)',
-    data: [35000, 75000, 12000, 8000, 25000],
-    backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff'],
-  }]
-};
-
-const canvas = document.querySelector("#my-chart") as HTMLCanvasElement;
-if(!canvas){
-  console.error("canvas要素がありません")
+const apiUrl = "/data.json";
+try{
+  const expenseData:ExpenseData = await fetchData<ExpenseData>(apiUrl);
+  const expenseChartData = generateExpenseChartData(expenseData);
+  const canvas = document.querySelector("#my-chart") as HTMLCanvasElement;
+  if(!canvas){
+    console.error("canvas要素がありません")
+  }
+  else{
+    renderChart(expenseChartData, "家計簿", canvas);
+  }
 }
-else{
-  renderChart(chartData, "家計簿", canvas);
+catch(error){
+  console.error("データが取得できませんでした", error);
 }
