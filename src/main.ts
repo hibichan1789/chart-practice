@@ -1,5 +1,6 @@
-import { Chart } from "chart.js/auto";
-import type { ChartConfiguration, ChartData } from "chart.js/auto";
+//main.ts
+import { renderChart } from "./chart";
+import type { ChartData } from "chart.js/auto";
 
 const chartData:ChartData<"pie"> = {
   labels: ['食費', '家賃', '光熱費', '通信費', '趣味'],
@@ -15,25 +16,5 @@ if(!canvas){
   console.error("canvas要素がありません")
 }
 else{
-  renderChart(chartData, canvas);
-}
-function renderChart(chartData:ChartData, canvas:HTMLCanvasElement):void{
-  //canvas要素であることをアサーションすることでcanvasの機能を使えるようにする
-  
-  new Chart(
-    canvas,
-    {
-      type:"pie",
-      data:chartData,
-      options:{
-        responsive:true,
-        plugins:{
-          title:{
-            display:true,
-            text:"家計簿カテゴリ別内訳"
-          }
-        }
-      }
-    }
-  )
+  renderChart(chartData, "家計簿", canvas);
 }
