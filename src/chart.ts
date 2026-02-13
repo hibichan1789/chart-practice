@@ -4,6 +4,7 @@ import type { ChartData, ChartConfiguration } from "chart.js/auto";
 
 
 export function renderChart(chartData:ChartData<"pie">, chartTitle:string, canvas:HTMLCanvasElement):void{
+    Chart.getChart(canvas)?.destroy();
     const chartConfig:ChartConfiguration<"pie"> = {
         type: "pie",
         data: chartData,
